@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responder Dashboard — Lifeline</title>
+  <!-- Leaflet CSS (free, no API key) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    #map { height: 380px; border-radius: 12px; border: 1px solid var(--border); }
+    .leaflet-container { background: #1a2235; }
+  </style>
+</head>
+<body>
+
+    <div class="liquid-bg">
+        <div class="blob"></div>
+    </div>
+
+    <div class="dashboard-wrapper">
+
+        <!-- Sidebar -->
+        <aside class="sidebar liquid-glass">
+            <div class="sidebar-logo">
+                <div style="background: var(--clr-red); padding: 8px; border-radius: 8px; line-height: 1;">🚨</div>
+                <span style="font-weight: 800; letter-spacing: -1.5px; font-size: 24px;">LIFELINE</span>
+            </div>
+
+            <div class="sidebar-nav">
+                <div style="padding: 0 16px; margin-bottom: 12px; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">Field Ops Unit</div>
+                <a href="/responder.html" class="nav-link active" id="navMap">
+                    <span>🗺️</span> <span>Live Grid</span>
+                </a>
+                <a href="#" class="nav-link" onclick="showRSection('incidents'); return false;" id="navRIncidents">
+                    <span>🆘</span> <span>Active Duty</span>
+                </a>
+                <a href="#" class="nav-link" onclick="showRSection('history'); return false;">
+                    <span>📋</span> <span>Operations Log</span>
+                </a>
+            </div>
+
+            <div class="sidebar-footer" style="padding: 24px; border-top: 1px solid var(--glass-border);">
+                <div class="sidebar-user" style="display: flex; align-items: center; gap: 16px;">
+                    <div class="sidebar-avatar" style="width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(135deg,var(--clr-blue),#1e3a8a); display: flex; align-items: center; justify-content: center; font-weight: 900; box-shadow: 0 4px 12px var(--clr-blue-glow);">R</div>
+                    <div style="flex: 1; min-width: 0;">
+                        <div class="sidebar-user-name" style="font-size: 15px; font-weight: 700; color: #fff;">Responder</div>
+                        <div style="font-size: 11px; color: var(--clr-blue); font-weight: 600; text-transform: uppercase;">On Duty</div>
+                    </div>
+                    <button class="btn-logout" onclick="logout()" style="background: none; border: none; color: var(--text-muted); cursor: pointer; transition: 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--text-muted)'">⏻</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <main class="main-view">
+
+            <!-- ======= MAP SECTION ======= -->
+            <div id="rsection-map">
+                <div class="page-header reveal visible">
+                    <h1 class="hero-title" style="font-size: 48px; text-align: left; margin-bottom: 8px;">Dispatch Grid</h1>
+                    <p class="hero-desc" style="font-size: 16px; text-align: left; margin-bottom: 0;">Real-time incident tracking and unit coordination.</p>
+                </div>
+
+                <div class="stats-grid stagger visible" style="margin-bottom: 32px;">
+                    <div class="liquid-glass liquid-glass-hover" style="padding: 32px; border-radius: var(--radius-lg);">
+                        <div style="font-size: 32px; margin-bottom: 16px;">🆘</div>
+                        <div class="stat-value" id="rStatPending" style="font-size: 44px; font-weight: 800; line-height: 1;">—</div>
+                        <div class="stat-label" style="color: var(--text-dim); margin-top: 8px; font-weight: 500;">Critical Alerts</div>
+                    </div>
+                    <div class="liquid-glass liquid-glass-hover" style="padding: 32px; border-radius: var(--radius-lg);">
+                        <div style="font-size: 32px; margin-bottom: 16px;">⚡</div>
+                        <div class="stat-value" id="rStatActive" style="font-size: 44px; font-weight: 800; line-height: 1;">—</div>
+                        <div class="stat-label" style="color: var(--text-dim); margin-top: 8px; font-weight: 500;">En Route</div>
+                    </div>
+                    <div class="liquid-glass liquid-glass-hover" style="padding: 32px; border-radius: var(--radius-lg);">
+                        <div style="font-size: 32px; margin-bottom: 16px;">✅</div>
+                        <div class="stat-value" id="rStatResolved" style="font-size: 44px; font-weight: 800; line-height: 1;">—</div>
+                        <div class="stat-label" style="color: var(--text-dim); margin-top: 8px; font-weight: 500;">Secured Today</div>
+                    </div>
+                </div>
+
+                <div class="liquid-glass reveal visible" style="margin-bottom: 32px; border-radius: var(--radius-lg); overflow: hidden;">
+                    <div style="padding: 32px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border);">
+                        <h2 style="font-size: 24px; font-weight: 800;">Operational Area</h2>
+                        <button class="btn btn-secondary" onclick="refreshMap()" style="padding: 10px 20px; font-size: 14px; border-radius: 99px;">🔄 Re-sync Map</button>
+                    </div>
+                    <div id="map" style="height: 520px; border-radius: 0; border: none;"></div>
+                </div>
+            </div>
+
+    <!-- ======= INCIDENTS SECTION ======= -->
+    <div id="rsection-incidents" style="display:none;">
+      <div class="page-header">
+        <h1 class="page-title">🆘 Active Incidents</h1>
+        <p class="page-subtitle">Respond to pending and active emergencies</p>
+      </div>
+      <div id="rIncidentsList">
+        <div class="empty-state">
+          <div class="loading-dots"><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======= HISTORY SECTION ======= -->
+    <div id="rsection-history" style="display:none;">
+      <div class="page-header">
+        <h1 class="page-title">📋 Resolved History</h1>
+        <p class="page-subtitle">Previously resolved incidents</p>
+      </div>
+      <div class="liquid-glass" style="padding: 24px; border-radius: var(--radius-md);">
+        <div class="table-wrap" id="rHistoryTable">
+          <div class="empty-state">
+            <div class="loading-dots"><span></span><span></span><span></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div id="toast-container"></div>
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="js/script.js"></script>
+<script>
+  requireAuth(['responder']);
+  initResponder();
+</script>
+</body>
+</html>

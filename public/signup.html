@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up — Lifeline Emergency Response</title>
+  <meta name="description" content="Create your Lifeline account to access emergency services.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="liquid-bg">
+        <div class="blob"></div>
+    </div>
+
+    <div class="auth-container">
+        <div class="auth-card liquid-glass reveal-entry">
+            <div class="auth-logo" style="margin-bottom: 32px; justify-content: center;">
+                <div style="background: var(--clr-red); padding: 12px; border-radius: 12px; line-height: 1;">🚨</div>
+                <h1 style="font-size: 32px; margin: 0; background: linear-gradient(180deg, #fff 0%, var(--text-dim) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">LIFELINE</h1>
+            </div>
+
+    <h2 class="auth-title">Create account</h2>
+    <p class="auth-subtitle">Join Lifeline and get access to emergency response</p>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label" for="name">Full Name</label>
+        <input id="name" class="form-input" type="text" placeholder="John Doe">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="phone">Phone Number</label>
+        <input id="phone" class="form-input" type="tel" placeholder="+91 98765 43210">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label" for="email">Email Address</label>
+        <input id="email" class="form-input" type="email" placeholder="you@example.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="aadhaar">Aadhaar Number</label>
+        <input id="aadhaar" class="form-input" type="text" placeholder="1234 5678 9012" maxlength="12">
+      </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" for="photo">Profile Photo URL</label>
+        <input id="photo" class="form-input" type="text" placeholder="https://example.com/photo.jpg">
+        <small style="color: var(--text-muted); font-size: 11px; margin-top: 4px; display: block;">Paste a direct link to your photo for verification</small>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <input id="password" class="form-input" type="password" placeholder="Min 6 characters">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="confirm">Confirm Password</label>
+        <input id="confirm" class="form-input" type="password" placeholder="Repeat password">
+      </div>
+    </div>
+
+    <div class="form-group" style="display: flex; align-items: flex-start; gap: 12px; margin-top: 8px;">
+        <input type="checkbox" id="terms" style="margin-top: 4px; accent-color: var(--clr-red); width: 18px; height: 18px;">
+        <label for="terms" style="font-size: 13px; color: var(--text-dim); cursor: pointer;">
+            I agree to the <a href="#" id="openTerms" style="color: var(--clr-red); text-decoration: underline;">Terms & Conditions</a>. 
+            I understand that <strong>fake SOS alerts</strong> will lead to account suspension and legal action.
+        </label>
+    </div>
+
+    <div id="msg" class="msg"></div>
+
+    <button id="signupBtn" class="btn btn-primary" onclick="signup()" style="width: 100%;" disabled>
+      🚀 Create Account
+    </button>
+
+    <div class="auth-footer">
+      Already have an account? <a href="/login.html">Sign in</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- Terms & Conditions Modal -->
+<div id="termsModal" class="modal-overlay">
+    <div class="modal liquid-glass" style="max-width: 600px;">
+        <h2 class="modal-title">Terms & Conditions</h2>
+        <div style="max-height: 400px; overflow-y: auto; padding-right: 16px; font-size: 14px; color: var(--text-dim); line-height: 1.6;">
+            <p><strong>1. Identification:</strong> Users must provide a valid Aadhaar Number for authentication. Fake identities are strictly prohibited.</p>
+            <br>
+            <p><strong>2. Emergency SOS:</strong> The SOS feature is only for genuine emergencies (Medical, Fire, Crime, or Personal Danger). Using the SOS feature for tests or pranks is a criminal offense.</p>
+            <br>
+            <p><strong>3. Fake Alerts:</strong> Creating fake SOS alerts wastes critical resources. Users found guilty of fake alerts will face:</p>
+            <ul style="padding-left: 20px; margin: 12px 0;">
+                <li>Immediate account termination.</li>
+                <li>Heavy financial penalties.</li>
+                <li>Report to local law enforcement for legal prosecution.</li>
+            </ul>
+            <p><strong>4. Location Tracking:</strong> By using Lifeline, you agree to share your real-time location when an SOS is triggered.</p>
+            <br>
+            <p><strong>5. Accuracy:</strong> You agree that all information provided (Name, Aadhaar, Phone) is accurate and belongs to you.</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" onclick="document.getElementById('termsModal').classList.remove('open')">I Understand</button>
+        </div>
+    </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="js/script.js"></script>
+</body>
+</html>

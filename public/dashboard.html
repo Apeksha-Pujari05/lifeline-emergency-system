@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — Lifeline</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="liquid-bg">
+        <div class="blob"></div>
+    </div>
+
+    <div class="dashboard-wrapper">
+
+        <!-- Sidebar -->
+        <aside class="sidebar liquid-glass">
+            <div class="sidebar-logo">
+                <div style="background: var(--clr-red); padding: 8px; border-radius: 8px; line-height: 1;">🚨</div>
+                <span style="font-weight: 800; letter-spacing: -1.5px; font-size: 24px;">LIFELINE</span>
+            </div>
+
+    <div class="sidebar-nav">
+      <a href="/dashboard.html" class="nav-item active">
+        <span>🏠</span> <span>Dashboard</span>
+      </a>
+      <a href="/sos.html" class="nav-item">
+        <span>🆘</span> <span>Send SOS</span>
+      </a>
+      <a href="/my-incidents.html" class="nav-item" id="myIncidentsLink">
+        <span>📋</span> <span>My Incidents</span>
+      </a>
+      
+      <div style="margin-top: 24px; padding: 0 16px; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Emergency</div>
+      <a href="tel:112" class="nav-item">
+        <span>📞</span> <span>Call 112</span>
+      </a>
+    </div>
+
+    <div class="sidebar-footer" style="padding: 16px; border-top: 1px solid var(--border);">
+      <div class="sidebar-user" style="display: flex; align-items: center; gap: 12px;">
+        <div class="sidebar-avatar" id="userAvatar" style="width: 40px; height: 40px; border-radius: 12px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 800;">U</div>
+        <div style="flex: 1; min-width: 0;">
+          <div class="sidebar-user-name" id="userName" style="font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">User</div>
+          <div style="font-size: 11px; color: var(--text-muted);">Citizen</div>
+        </div>
+        <button class="btn-logout" onclick="logout()" style="background: none; border: none; color: var(--text-muted); cursor: pointer;">⏻</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <div class="page-header reveal">
+      <h1 class="page-title">Welcome, <span id="greetName">there</span> 👋</h1>
+      <p class="page-subtitle" id="currentDate">Loading...</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid stagger visible">
+      <div class="liquid-glass liquid-glass-hover" style="padding: 30px; border-radius: var(--radius-lg); position: relative; overflow: hidden;">
+        <div style="font-size: 44px; margin-bottom: 24px;">🆘</div>
+        <div class="stat-value" id="totalSOS" style="font-size: 56px; font-weight: 800; line-height: 1;">0</div>
+        <div class="stat-label" style="color: var(--text-dim); font-weight: 500; margin-top: 8px;">Total SOS Alerts</div>
+        <div style="position: absolute; top: -10px; right: -10px; padding: 20px; font-size: 80px; opacity: 0.03; filter: blur(2px);">🆘</div>
+      </div>
+      <div class="liquid-glass liquid-glass-hover" style="padding: 30px; border-radius: var(--radius-lg); position: relative; overflow: hidden;">
+        <div style="font-size: 44px; margin-bottom: 24px;">⏳</div>
+        <div class="stat-value" id="pendingCount" style="font-size: 56px; font-weight: 800; line-height: 1;">0</div>
+        <div class="stat-label" style="color: var(--text-dim); font-weight: 500; margin-top: 8px;">Active Incidents</div>
+        <div style="position: absolute; top: -10px; right: -10px; padding: 20px; font-size: 80px; opacity: 0.03; filter: blur(2px);">⏳</div>
+      </div>
+      <div class="liquid-glass liquid-glass-hover" style="padding: 30px; border-radius: var(--radius-lg); position: relative; overflow: hidden;">
+        <div style="font-size: 44px; margin-bottom: 24px;">✅</div>
+        <div class="stat-value" id="resolvedCount" style="font-size: 56px; font-weight: 800; line-height: 1;">0</div>
+        <div class="stat-label" style="color: var(--text-dim); font-weight: 500; margin-top: 8px;">Cases Resolved</div>
+        <div style="position: absolute; top: -10px; right: -10px; padding: 20px; font-size: 80px; opacity: 0.03; filter: blur(2px);">✅</div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="liquid-glass reveal visible" style="margin-bottom: 32px; padding: 48px; border-radius: var(--radius-lg);">
+      <h2 style="font-size: 26px; margin-bottom: 32px; font-weight: 800;">Emergency Dispatch One-Tap</h2>
+      <div class="quick-actions stagger visible">
+        <a href="/sos.html?type=Medical" class="liquid-glass liquid-glass-hover" style="padding: 36px; border-radius: var(--radius-md); text-align: center;">
+          <div style="font-size: 48px; margin-bottom: 16px;">🏥</div>
+          <div style="font-weight: 800; font-size: 18px; margin-bottom: 6px;">Medical</div>
+          <div style="font-size: 13px; color: var(--text-muted); font-weight: 500;">Critical Care Assist</div>
+        </a>
+        <a href="/sos.html?type=Police" class="liquid-glass liquid-glass-hover" style="padding: 36px; border-radius: var(--radius-md); text-align: center;">
+          <div style="font-size: 48px; margin-bottom: 16px;">👮</div>
+          <div style="font-weight: 800; font-size: 18px; margin-bottom: 6px;">Police</div>
+          <div style="font-size: 13px; color: var(--text-muted); font-weight: 500;">Law Enforcement</div>
+        </a>
+        <a href="/sos.html?type=Fire" class="liquid-glass liquid-glass-hover" style="padding: 36px; border-radius: var(--radius-md); text-align: center;">
+          <div style="font-size: 48px; margin-bottom: 16px;">🔥</div>
+          <div style="font-weight: 800; font-size: 18px; margin-bottom: 6px;">Fire</div>
+          <div style="font-size: 13px; color: var(--text-muted); font-weight: 500;">Rescue & Suppression</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Live Feed & Safe Circle -->
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 32px; margin-bottom: 32px;">
+        
+        <!-- Recent Incidents -->
+        <div class="liquid-glass reveal visible" style="padding: 40px; border-radius: var(--radius-lg);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+                <h2 style="font-size: 26px; font-weight: 800;">Live Incident Feed</h2>
+                <a href="/sos.html" class="btn btn-primary" style="padding: 10px 24px; font-size: 14px; border-radius: 99px;">+ New SOS Alert</a>
+            </div>
+            <div id="recentIncidents">
+                <div class="empty-state"><div class="loading-dots"><span></span><span></span><span></span></div></div>
+            </div>
+        </div>
+
+        <!-- Safe Zone Map -->
+        <div class="liquid-glass reveal visible" style="padding: 40px; border-radius: var(--radius-lg);">
+            <h2 style="font-size: 24px; font-weight: 800; margin-bottom: 16px;">Safe Zone</h2>
+            <div class="mini-map-container" id="miniMap">
+                <div class="map-overlay">
+                    <div class="pulse-dot"></div>
+                    <span>LIVE TRACKING ACTIVE</span>
+                </div>
+            </div>
+            <div style="margin-top: 16px; font-size: 14px; color: var(--text-dim);">
+                <span id="locationStatus">📍 Detecting location...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Emergency Circle -->
+    <div class="liquid-glass reveal visible" style="padding: 48px; border-radius: var(--radius-lg);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+            <h2 style="font-size: 26px; font-weight: 800;">My Emergency Circle</h2>
+            <button class="btn btn-secondary" onclick="openContactModal()" style="padding: 10px 24px; font-size: 14px; border-radius: 99px;">+ Add Contact</button>
+        </div>
+        <div id="contactGrid" class="contact-grid">
+            <!-- Contacts populated by JS -->
+            <div class="empty-state">No contacts added.</div>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="liquid-glass" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); visibility: hidden; opacity: 0; z-index: 2000; padding: 40px; width: 400px; transition: 0.3s; border-radius: 32px;">
+        <h2 style="margin-bottom: 24px;">New Emergency Contact</h2>
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-size: 12px; color: var(--text-muted);">FULL NAME</label>
+            <input type="text" id="cName" style="width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 12px; border-radius: 12px; color: #fff;">
+        </div>
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-size: 12px; color: var(--text-muted);">RELATIONSHIP</label>
+            <input type="text" id="cRelation" placeholder="e.g. Spouse, Parent" style="width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 12px; border-radius: 12px; color: #fff;">
+        </div>
+        <div style="margin-bottom: 24px;">
+            <label style="display: block; margin-bottom: 8px; font-size: 12px; color: var(--text-muted);">PHONE NUMBER</label>
+            <input type="text" id="cPhone" style="width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 12px; border-radius: 12px; color: #fff;">
+        </div>
+        <div style="display: flex; gap: 12px;">
+            <button class="btn btn-primary" onclick="saveContact()" style="flex: 1;">Save Contact</button>
+            <button class="btn btn-secondary" onclick="closeContactModal()">Cancel</button>
+        </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="js/script.js"></script>
+<script src="js/chatbot.js"></script>
+<script>
+  // Auth guard
+  requireAuth(['user']);
+  // Load page data
+  loadDashboard();
+  initDashboardMap();
+  loadContacts();
+</script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Send SOS — Lifeline</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="liquid-bg">
+        <div class="blob"></div>
+    </div>
+
+    <div class="dashboard-wrapper">
+
+        <!-- Sidebar -->
+        <aside class="sidebar liquid-glass">
+            <div class="sidebar-logo">
+                <div style="background: var(--clr-red); padding: 8px; border-radius: 8px; line-height: 1;">🚨</div>
+                <span style="font-weight: 800; letter-spacing: -1.5px; font-size: 24px;">LIFELINE</span>
+            </div>
+
+    <div class="sidebar-nav">
+      <a href="/dashboard.html" class="nav-item">
+        <span>🏠</span> <span>Dashboard</span>
+      </a>
+      <a href="/sos.html" class="nav-item active">
+        <span>🆘</span> <span>Send SOS</span>
+      </a>
+    </div>
+
+    <div class="sidebar-footer" style="padding: 16px; border-top: 1px solid var(--border);">
+      <div class="sidebar-user" style="display: flex; align-items: center; gap: 12px;">
+        <div class="sidebar-avatar" id="userAvatar" style="width: 40px; height: 40px; border-radius: 12px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 800;">U</div>
+        <div style="flex: 1; min-width: 0;">
+          <div class="sidebar-user-name" id="userName" style="font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">User</div>
+          <div style="font-size: 11px; color: var(--text-muted);">Citizen</div>
+        </div>
+        <button class="btn-logout" onclick="logout()" style="background: none; border: none; color: var(--text-muted); cursor: pointer;">⏻</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main-content">
+    <div class="page-header reveal">
+      <h1 class="page-title">🚨 Emergency Dispatch</h1>
+      <p class="page-subtitle">Immediate assistance is just a tap away.</p>
+    </div>
+
+    <div class="sos-page">
+
+      <!-- Emergency Type Selection -->
+      <div class="liquid-glass reveal" style="margin-bottom: 24px; padding: 32px; border-radius: var(--radius-lg); animation-delay: 0.1s;">
+        <h2 style="font-size: 20px; margin-bottom: 20px;">1. Select Emergency Category</h2>
+        <div class="sos-types">
+          <div class="sos-type-card liquid-glass liquid-glass-hover" id="type-Medical" onclick="selectType('Medical')">
+            <div style="font-size: 40px; margin-bottom: 8px;">🏥</div>
+            <div style="font-weight: 700;">Medical</div>
+          </div>
+          <div class="sos-type-card liquid-glass liquid-glass-hover" id="type-Police" onclick="selectType('Police')">
+            <div style="font-size: 40px; margin-bottom: 8px;">👮</div>
+            <div style="font-weight: 700;">Police</div>
+          </div>
+          <div class="sos-type-card liquid-glass liquid-glass-hover" id="type-Fire" onclick="selectType('Fire')">
+            <div style="font-size: 40px; margin-bottom: 8px;">🔥</div>
+            <div style="font-weight: 700;">Fire</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="liquid-glass reveal" style="margin-bottom: 24px; padding: 32px; border-radius: var(--radius-lg); animation-delay: 0.2s;">
+        <h2 style="font-size: 20px; margin-bottom: 20px;">2. Situation Details</h2>
+        <div class="form-group" style="margin-bottom:0;">
+          <textarea id="desc" class="form-input" rows="4"
+            placeholder="Briefly describe what is happening..."
+            style="resize:vertical; background: rgba(0,0,0,0.2);"></textarea>
+        </div>
+      </div>
+
+      <!-- Location -->
+      <div class="liquid-glass reveal" style="margin-bottom: 24px; padding: 32px; border-radius: var(--radius-lg); animation-delay: 0.3s;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <h2 style="font-size: 20px;">3. Verification</h2>
+            <button class="btn btn-secondary" onclick="getLocation()" style="padding: 6px 12px; font-size: 11px;">Refresh GPS</button>
+        </div>
+        <div id="locationStatus" style="font-size:13px; color: var(--text-dim);">
+          📍 Detecting location...
+        </div>
+        <div id="locationCoords" style="font-size:11px; color: var(--text-muted); margin-top:6px;"></div>
+      </div>
+
+      <!-- SOS Button -->
+      <div class="sos-center reveal">
+        <button class="sos-ring" id="sosBtn" onclick="sendSOS()">
+          <span style="font-size: 54px; margin-bottom: 8px;">🆘</span>
+          <span>DISPATCH</span>
+        </button>
+      </div>
+
+      <div id="msg" class="msg" style="text-align:center;"></div>
+
+    </div>
+  </main>
+</div>
+
+<div id="toast-container"></div>
+<script src="js/script.js"></script>
+<script>
+  requireAuth(['user']);
+  initSOS();
+</script>
+</body>
+</html>

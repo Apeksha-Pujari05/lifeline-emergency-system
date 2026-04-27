@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIFELINE — Liquid Response System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="liquid-bg">
+        <div class="blob"></div>
+    </div>
+
+    <header
+        style="position: fixed; top: 0; width: 100%; z-index: 1000; padding: 24px 64px; display: flex; justify-content: space-between; align-items: center;"
+        class="liquid-glass">
+        <div class="sidebar-logo" style="margin-bottom: 0;">
+            <div style="background: var(--clr-red); padding: 10px; border-radius: 12px; line-height: 1;">🚨</div>
+            <span style="font-weight: 800; letter-spacing: -1.5px; font-size: 24px;">LIFELINE</span>
+        </div>
+        <nav style="display: flex; gap: 40px; font-weight: 600; font-size: 15px;">
+            <a href="#features" style="opacity: 0.8; transition: 0.3s;" onmouseover="this.style.opacity=1"
+                onmouseout="this.style.opacity=0.8">Features</a>
+            <a href="/login.html" style="opacity: 0.8; transition: 0.3s;" onmouseover="this.style.opacity=1"
+                onmouseout="this.style.opacity=0.8">Citizen</a>
+            <a href="/login.html" style="opacity: 0.8; transition: 0.3s;" onmouseover="this.style.opacity=1"
+                onmouseout="this.style.opacity=0.8">Responder</a>
+        </nav>
+        <div>
+            <a href="/login.html" class="btn btn-primary" style="padding: 12px 28px; border-radius: 99px;">Login</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-badge reveal">GLOBAL EMERGENCY RESPONSE</div>
+            <h1 class="hero-title reveal">Seconds Save<br>Human Lives.</h1>
+            <p class="hero-desc reveal">LIFELINE leverages advanced fluid computing and real-time geolocation to connect
+                you with responders in an instant. Professional grade safety for everyone.</p>
+            <div class="hero-actions stagger">
+                <a href="/signup.html" class="btn btn-primary">Join Lifeline</a>
+                <a href="#features" class="btn btn-secondary">System Overview</a>
+            </div>
+
+            <div style="margin-top: 100px; width: 100%; max-width: 1100px; padding: 64px;" class="liquid-glass reveal">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 64px;">
+                    <div class="stagger-item">
+                        <h3 style="font-size: 48px; color: var(--clr-red); font-weight: 800;">1.2s</h3>
+                        <p style="color: var(--text-dim); font-size: 16px; font-weight: 500;">Connection Latency</p>
+                    </div>
+                    <div class="stagger-item">
+                        <h3 style="font-size: 48px; color: var(--clr-blue); font-weight: 800;">24/7</h3>
+                        <p style="color: var(--text-dim); font-size: 16px; font-weight: 500;">Uptime Guaranteed</p>
+                    </div>
+                    <div class="stagger-item">
+                        <h3 style="font-size: 48px; color: var(--clr-amber); font-weight: 800;">100%</h3>
+                        <p style="color: var(--text-dim); font-size: 16px; font-weight: 500;">Data Sovereign</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" style="padding: 140px 40px; max-width: 1400px; margin: 0 auto;">
+            <div class="reveal" style="text-align: center; margin-bottom: 84px;">
+                <h2 style="font-size: 56px; font-weight: 800; margin-bottom: 24px;">Precision Response</h2>
+                <p style="color: var(--text-dim); max-width: 700px; margin: 0 auto; font-size: 20px;">Built on the most
+                    resilient emergency infrastructure ever designed for the public web.</p>
+            </div>
+
+            <div class="stagger"
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 32px;">
+                <div class="liquid-glass liquid-glass-hover" style="padding: 54px; border-radius: 32px;">
+                    <div style="font-size: 54px; margin-bottom: 32px; filter: drop-shadow(0 0 10px var(--clr-red));">📍
+                    </div>
+                    <h3 style="font-size: 28px; margin-bottom: 16px; color: #fff;">Fluid Geofencing</h3>
+                    <p style="color: var(--text-dim); line-height: 1.8; font-size: 17px;">Intelligent location tracking
+                        that adapts to your movement, ensuring responders have your exact coordinates even in transit.
+                    </p>
+                </div>
+                <div class="liquid-glass liquid-glass-hover" style="padding: 54px; border-radius: 32px;">
+                    <div style="font-size: 54px; margin-bottom: 32px; filter: drop-shadow(0 0 10px var(--clr-blue));">
+                        🛡️</div>
+                    <h3 style="font-size: 28px; margin-bottom: 16px; color: #fff;">Unified Grid</h3>
+                    <p style="color: var(--text-dim); line-height: 1.8; font-size: 17px;">Command centers utilize
+                        glass-interface technology to coordinate multiple responder units with sub-meter accuracy.</p>
+                </div>
+                <div class="liquid-glass liquid-glass-hover" style="padding: 54px; border-radius: 32px;">
+                    <div style="font-size: 54px; margin-bottom: 32px; filter: drop-shadow(0 0 10px var(--clr-amber));">⚡
+                    </div>
+                    <h3 style="font-size: 28px; margin-bottom: 16px; color: #fff;">Instant SOS</h3>
+                    <p style="color: var(--text-dim); line-height: 1.8; font-size: 17px;">A tactile, physical-feel
+                        interface designed for speed, reducing the friction between the emergency and the help needed.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer
+        style="padding: 100px 40px; text-align: center; border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.2);">
+        <div class="sidebar-logo" style="justify-content: center; margin-bottom: 32px; opacity: 0.5;">
+            <div style="background: var(--clr-red); padding: 6px; border-radius: 8px; line-height: 1; font-size: 12px;">
+                🚨</div>
+            <span style="font-weight: 800; letter-spacing: -1px; font-size: 18px;">LIFELINE</span>
+        </div>
+        <p style="color: var(--text-muted); font-size: 15px;">© 2026 Emergency Global Response Unit. Every second
+            counts.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/chatbot.js"></script>
+    <script>
+        // Intersection Observer for professional reveal
+        const observerOptions = { threshold: 0.15 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Staggering within the container if it's a stagger element
+                    if (entry.target.classList.contains('stagger')) {
+                        const children = entry.target.children;
+                        for (let i = 0; i < children.length; i++) {
+                            children[i].style.transitionDelay = `${(i + 1) * 0.2}s`;
+                            children[i].style.opacity = '1';
+                            children[i].style.transform = 'translateY(0)';
+                        }
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal, .stagger').forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>

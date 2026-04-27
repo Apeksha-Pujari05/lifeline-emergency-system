@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — Lifeline</title>
+  <link rel="stylesheet" href="css/style.css">
+</head><body>
+
+    <div class="liquid-bg">
+        <div class="blob"></div>
+    </div>
+
+    <div class="dashboard-wrapper">
+
+        <!-- Sidebar -->
+        <aside class="sidebar liquid-glass">
+            <div class="sidebar-logo">
+                <div style="background: var(--clr-red); padding: 8px; border-radius: 8px; line-height: 1;">🚨</div>
+                <span style="font-weight: 800; letter-spacing: -1.5px; font-size: 24px;">LIFELINE</span>
+            </div>
+
+            <div class="sidebar-nav">
+                <div style="padding: 0 16px; margin-bottom: 12px; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">Admin Terminal</div>
+                <a href="/admin.html" class="nav-link active" id="navDashboard">
+                    <span>📊</span> <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-link" onclick="showSection('incidents'); return false;" id="navIncidents">
+                    <span>🆘</span> <span>Incidents</span>
+                </a>
+                <a href="#" class="nav-link" onclick="showSection('users'); return false;" id="navUsers">
+                    <span>👥</span> <span>Users</span>
+                </a>
+                <a href="#" class="nav-link" onclick="showSection('responders'); return false;" id="navResponders">
+                    <span>🦺</span> <span>Units</span>
+                </a>
+            </div>
+
+            <div class="sidebar-footer" style="padding: 24px; border-top: 1px solid var(--glass-border);">
+                <div class="sidebar-user" style="display: flex; align-items: center; gap: 16px;">
+                    <div class="sidebar-avatar" style="width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(135deg,#e63946,#c1121f); display: flex; align-items: center; justify-content: center; font-weight: 900; box-shadow: 0 4px 12px var(--clr-red-glow);">A</div>
+                    <div style="flex: 1; min-width: 0;">
+                        <div class="sidebar-user-name" style="font-size: 15px; font-weight: 700; color: #fff;">Admin</div>
+                        <div style="font-size: 11px; color: var(--clr-red); font-weight: 600; text-transform: uppercase;">Commander</div>
+                    </div>
+                    <button class="btn-logout" onclick="logout()" style="background: none; border: none; color: var(--text-muted); cursor: pointer; transition: 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--text-muted)'">⏻</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <main class="main-view">
+
+            <!-- ======= DASHBOARD SECTION ======= -->
+            <div id="section-dashboard">
+                <div class="page-header reveal visible">
+                    <h1 class="hero-title" style="font-size: 48px; text-align: left; margin-bottom: 8px;">Command Center</h1>
+                    <p class="hero-desc" id="adminDate" style="font-size: 16px; text-align: left; margin-bottom: 0;">Loading operational data...</p>
+                </div>
+
+                <!-- Stat Cards -->
+                <div class="stats-grid stagger visible" id="adminStats" style="margin-bottom: 40px;">
+                    <div class="liquid-glass liquid-glass-hover" style="padding: 32px; border-radius: var(--radius-lg);">
+                        <div style="font-size: 32px; margin-bottom: 20px;">🆘</div>
+                        <div class="stat-value" id="statTotal" style="font-size: 44px; font-weight: 800; line-height: 1;">—</div>
+                        <div class="stat-label" style="color: var(--text-dim); margin-top: 8px; font-weight: 500;">Lifetime Alerts</div>
+                    </div>
+                    <div class="liquid-glass liquid-glass-hover" style="padding: 32px; border-radius: var(--radius-lg);">
+                        <div style="font-size: 32px; margin-bottom: 20px;">⏳</div>
+                        <div class="stat-value" id="statPending" style="font-size: 44px; font-weight: 800; line-height: 1;">—</div>
+                        <div class="stat-label" style="color: var(--text-dim); margin-top: 8px; font-weight: 500;">Pending Dispatch</div>
+                    </div>
+                    <div class="liquid-glass liquid-glass-hover" style="padding: 32px; border-radius: var(--radius-lg);">
+                        <div style="font-size: 32px; margin-bottom: 20px;">⚡</div>
+                        <div class="stat-value" id="statActive" style="font-size: 44px; font-weight: 800; line-height: 1;">—</div>
+                        <div class="stat-label" style="color: var(--text-dim); margin-top: 8px; font-weight: 500;">Active Units</div>
+                    </div>
+                    <div class="liquid-glass liquid-glass-hover" style="padding: 32px; border-radius: var(--radius-lg);">
+                        <div style="font-size: 32px; margin-bottom: 20px;">✅</div>
+                        <div class="stat-value" id="statResolved" style="font-size: 44px; font-weight: 800; line-height: 1;">—</div>
+                        <div class="stat-label" style="color: var(--text-dim); margin-top: 8px; font-weight: 500;">Resolved Cases</div>
+                    </div>
+                </div>
+
+                <!-- Recent Incidents Table -->
+                <div class="liquid-glass reveal visible" style="padding: 40px; border-radius: var(--radius-lg);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+                        <h2 style="font-size: 26px; font-weight: 800;">Real-time Activity Feed</h2>
+                        <button class="btn btn-secondary" onclick="loadAdminIncidents()" style="padding: 10px 20px; font-size: 14px; border-radius: 99px;">🔄 Synchronize Feed</button>
+                    </div>
+                    <div class="table-wrap" id="adminIncidentTable">
+                        <div class="empty-state">
+                            <div class="loading-dots"><span></span><span></span><span></span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    <!-- ======= INCIDENTS SECTION ======= -->
+    <div id="section-incidents" style="display:none;">
+      <div class="page-header">
+        <h1 class="page-title">All Incidents</h1>
+        <p class="page-subtitle">Manage and update incident statuses</p>
+      </div>
+
+      <!-- Filters -->
+      <div class="liquid-glass" style="margin-bottom:20px; padding: 24px; border-radius: var(--radius-md);">
+        <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+          <select id="filterStatus" class="form-input" style="width:auto;" onchange="filterIncidents()">
+            <option value="">All Statuses</option>
+            <option value="Pending">Pending</option>
+            <option value="Active">Active</option>
+            <option value="Resolved">Resolved</option>
+          </select>
+          <select id="filterType" class="form-input" style="width:auto;" onchange="filterIncidents()">
+            <option value="">All Types</option>
+            <option value="Medical">Medical</option>
+            <option value="Police">Police</option>
+            <option value="Fire">Fire</option>
+          </select>
+          <button class="btn btn-secondary btn-sm" onclick="loadAdminIncidents()">🔄 Refresh</button>
+        </div>
+      </div>
+
+      <div class="liquid-glass" style="padding: 24px; border-radius: var(--radius-md);">
+        <div class="table-wrap" id="allIncidentsTable">
+          <div class="empty-state">
+            <div class="loading-dots"><span></span><span></span><span></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======= USERS SECTION ======= -->
+    <div id="section-users" style="display:none;">
+      <div class="page-header">
+        <h1 class="page-title">Registered Users</h1>
+        <p class="page-subtitle">All civilian accounts</p>
+      </div>
+      <div class="liquid-glass" style="padding: 24px; border-radius: var(--radius-md);">
+        <div class="table-wrap" id="usersTable">
+          <div class="empty-state">
+            <div class="loading-dots"><span></span><span></span><span></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======= RESPONDERS SECTION ======= -->
+    <div id="section-responders" style="display:none;">
+      <div class="page-header">
+        <h1 class="page-title">Responders</h1>
+        <p class="page-subtitle">Default system responders</p>
+      </div>
+      <div class="liquid-glass" style="padding: 24px; border-radius: var(--radius-md);">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th><th>Email</th><th>Type</th><th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Responder Team</td>
+                <td>responder@lifeline.com</td>
+                <td><span class="badge medical">All Types</span></td>
+                <td><span class="badge resolved">Online</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Status Update Modal -->
+<div class="modal-overlay" id="statusModal">
+  <div class="modal">
+    <div class="modal-title">Update Incident Status</div>
+    <input type="hidden" id="modalIncidentId">
+    <div class="form-group">
+      <label class="form-label">New Status</label>
+      <select id="modalStatus" class="form-input">
+        <option value="Pending">Pending</option>
+        <option value="Active">Active</option>
+        <option value="Resolved">Resolved</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary btn-sm" onclick="confirmStatusUpdate()" style="width:auto;">Update</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="js/script.js"></script>
+<script>
+  requireAuth(['admin']);
+  initAdmin();
+</script>
+</body>
+</html>
